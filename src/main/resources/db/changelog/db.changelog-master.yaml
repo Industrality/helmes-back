@@ -1,0 +1,117 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1650101491569-1
+      author: Sander (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_sector
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: description
+                  type: VARCHAR(255)
+              - column:
+                  name: parent_id
+                  type: BIGINT
+            tableName: sector
+  - changeSet:
+      id: 1650101491569-2
+      author: Sander (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_user
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: user_name
+                  type: VARCHAR(255)
+              - column:
+                  name: agreed_to_terms
+                  type: BOOLEAN
+            tableName: user
+  - changeSet:
+      id: 1650101491569-3
+      author: Sander (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                  name: user_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: sectors_id
+                  type: BIGINT
+            tableName: user_sectors
+  - changeSet:
+      id: 1650101491569-4
+      author: Sander (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: parent_id
+            baseTableName: sector
+            constraintName: FK_SECTOR_ON_PARENT
+            referencedColumnNames: id
+            referencedTableName: sector
+  - changeSet:
+      id: 1650101491569-5
+      author: Sander (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: sectors_id
+            baseTableName: user_sectors
+            constraintName: fk_usesec_on_sector
+            referencedColumnNames: id
+            referencedTableName: sector
+  - changeSet:
+      id: 1650101491569-6
+      author: Sander (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: user_sectors
+            constraintName: fk_usesec_on_user
+            referencedColumnNames: id
+            referencedTableName: user
+  - changeSet:
+      id: loadUpdateData initial sectors
+      author: Sander
+      changes:
+        - loadUpdateData:
+            tableName: sector
+            columns:
+              - column:
+                  header: id
+                  name: id
+                  type: BIGINT
+              - column:
+                  header: parent_id
+                  name: parent_id
+                  type: BIGINT
+              - column:
+                  header: description
+                  name: description
+                  type: VARCHAR(255)
+            file: /db/data.csv
+            separator:  ;
+            primaryKey: id
